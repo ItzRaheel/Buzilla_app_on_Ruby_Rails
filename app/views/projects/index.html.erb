@@ -1,0 +1,36 @@
+
+
+<%= form_with url:projects_path, method: :get, data:{turbo_frame: "project_list"} do |f| %>
+<div class="filters">
+  <%= f.text_field :search,value: params[:search],placeholder: "Search project " %>
+
+  <%= f.submit "Filter" %>
+  <%= link_to "Reset",projects_path, data: { turbo_frame: "project_list"} %>
+
+</div>
+<% end %>
+
+<p style="color: green"><%= notice %></p>
+
+<% content_for :title, "Projects" %>
+
+<!-- <%= debug @projects %> -->
+<h1>Projects</h1>
+
+<div id="projects">
+  <% @projects.each do |project| %>
+    <%= render project %>
+    <p>
+      <%= link_to "Show this project", project_path(project) %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New project", new_project_path %>
+<div>
+<br>
+<h1>Bugs</h1>
+  <%= link_to "View all  Bugs", bugs_path %>
+  <br>
+  <%= link_to "Create New Bug", new_bug_path %>
+</div>

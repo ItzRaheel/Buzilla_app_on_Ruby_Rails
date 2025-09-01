@@ -1,0 +1,39 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @bug %>
+
+<div>
+  <%= link_to "Edit this bug", edit_bug_path(@bug) %> |
+  <%= link_to "Back to bugs", bugs_path %>
+  
+  <%= button_to "Destroy this bug", @bug, method: :delete %>
+</div>
+
+<div>
+
+</div>
+<% if current_user.role == "QA" %>
+<%= link_to "View Reports ",reports_path%>
+<br>
+<%= link_to "Create  Reports ",new_report_path%>
+<div>
+  <%end%>
+
+
+
+  <% if current_user.role == "developer" %>
+  
+  <% if policy(@bug).assign? %>
+    <%= button_to "Assign to Me", assign_bug_path(@bug), method: :patch, data: { confirm: "Are you sure you want to take this bug?" } %>
+  <% end %>
+  
+  <% if policy(@bug).resolve? %>
+    <%= button_to "Mark as Resolved", resolve_bug_path(@bug), method: :patch %>
+  <% end %>
+  <%else%>
+  <p>No show button</p>
+  <%end%>
+
+
+</div>  
+

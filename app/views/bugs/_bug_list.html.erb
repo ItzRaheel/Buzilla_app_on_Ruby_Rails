@@ -1,0 +1,22 @@
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Status</th>
+      <th>Type</th>
+      <th>Project</th>
+      <th>Created At</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% bugs.each do |bug| %>
+      <tr>
+        <td><%= bug.name %></td>
+        <td><%= bug.bug_status %></td>
+        <td><%= bug.priority %></td>
+        <td><%= bug.project.name %></td>
+        <td><%= bug.created_at.strftime("%Y-%m-%d") %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

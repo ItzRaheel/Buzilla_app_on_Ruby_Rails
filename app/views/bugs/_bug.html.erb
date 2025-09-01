@@ -1,0 +1,37 @@
+<div id="<%= dom_id bug %>">
+  <p>
+    <strong>Name:</strong>
+    <%= bug.name %>
+  </p>
+
+  <p>
+    <strong>Description:</strong>
+    <%= bug.description %>
+  </p>
+
+  <p>
+    <strong>Bug status:</strong>
+    <%= bug.bug_status %>
+  </p>
+
+  
+  <p>
+    <strong>Priority:</strong>
+    <%= bug.priority %>
+  </p> 
+  <p>
+    <strong>Created Date:</strong>
+    <%= bug.date %>
+  </p>
+
+  <p>
+    <strong>Projects:</strong>
+    <%= bug.project.name  %>
+    ||
+    <%= bug.project.description %>
+  </p>
+<% if bug.file.attached? %>
+<%= image_tag url_for(bug.file), width: 300, height: 300 %>
+<% end %>
+
+</div>

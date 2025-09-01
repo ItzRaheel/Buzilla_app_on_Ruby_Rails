@@ -1,0 +1,31 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @project %>
+
+
+<div>
+  <%= link_to "Edit this project", edit_project_path(@project) %> |
+  <%= link_to "Back to projects", projects_path %>
+  
+  <%= button_to "Destroy this project", @project, method: :delete %>
+</div>
+
+<% if @bugs.present? %>
+<h1>Bugs</h1>
+<% @bugs.each do |bug| %>
+<div style="display: block;border: 1px solid rgb(159, 141, 177);margin-top: 20px;width: 20%;">
+  <p>
+    <strong>
+Bug_Name:
+    </strong>
+    <%= link_to bug.name,bug_path(bug) %></p>
+</div>
+
+<%end %>
+<% else %>
+
+<h3>Not bugs are created yet belongs to Project: You want to Create</h3>
+<%end%>
+<%= link_to "Create New Bug",new_bug_path %>
+
+

@@ -1,0 +1,51 @@
+
+    <% link_to "Login",user_session_path %>
+
+    <h1>Bugs</h1>
+
+<%= form_with url: bugs_path, method: :get, data: { turbo_frame: "bugs_list" } do |f| %>
+  <div class="filters">
+    <%= f.text_field :search, value: params[:search], placeholder: "Search bugs..." %>
+
+    <%= f.submit "Filter" %>
+    <%= link_to "Reset", bugs_path, data: { turbo_frame: "bugs_list" } %>
+  </div>
+<% end %>
+<!--  -->
+
+<p style="color: green"><%= notice %></p>
+
+<% content_for :title, "Bugs" %>
+
+
+<h1>Bugs</h1>
+
+<div id="bugs">
+  <% @bugs.each do |bug| %>
+    <%= render bug %>
+    <p>
+      <%= link_to "Show this bug", bug %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New bug", new_bug_path %>
+
+
+<div>
+  <br>
+  <h1>Projects</h1>
+
+
+  <%= link_to "Show all Projects", projects_path %>
+  <br>
+  <%= link_to "Create New Projects", new_project_path %>
+
+</div>
+
+
+
+
+
+
+

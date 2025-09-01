@@ -1,0 +1,37 @@
+<%= form_with(model: @report)do |form| %>
+
+
+<% if report.errors.any? %>
+<div style="color: brown;">
+   <h2>
+      <%= pluralize(report.errors.count,"error") %>
+      prohibited this project from being saved
+   </h2>
+       <ul>
+        <% report.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+
+
+</div>
+
+  <% end %>
+
+ <div>
+    <%= form.label :Reprt_Name,style: "display: block" %>
+    <%= form.text_field :report_name %>
+ </div>
+ <br>
+ <div>
+    <%= form.label :Report_Description,style:"display: block" %>
+    <%= form.text_area :report_description %>
+ </div>
+
+ <br>
+ <div>
+    <%=  form.submit %>
+ </div>
+
+ <%end%>
+ <%= link_to "Back to Report",reports_path %>
