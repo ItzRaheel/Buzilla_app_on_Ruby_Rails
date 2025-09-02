@@ -66,6 +66,10 @@ render json: @project
   def update
     respond_to do |format|
     #   authorize @project
+
+
+
+    
       if @project.update(project_params)
 
     #        User.where(role: "Manger").find_each do |man|
