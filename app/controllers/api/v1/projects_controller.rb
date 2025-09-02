@@ -52,7 +52,7 @@ render json: @project
     respond_to do |format|
       if @project.save
         # render json: @project
-        # format.html { redirect_to @project, notice: "Project was successfully created." }
+        format.html { redirect_to @project, notice: "Project was successfully created." }
         format.json { render json: @project, status: :created, location: @project }
       else
         format.html { render :new, status: :unprocessable_entity }
