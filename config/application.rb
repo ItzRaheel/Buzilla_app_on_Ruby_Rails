@@ -13,7 +13,11 @@ module BugzillaApp
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 8.0
     config.active_job.queue_adapter = :sidekiq
-    config.api_only = true
+       # Add back middleware for cookies & session
+   # Enable cookies and sessions
+config.middleware.use ActionDispatch::Cookies
+config.middleware.use ActionDispatch::Session::CookieStore, key: '_bugzilla_app_session'
+
 
 
     # Please, add to the `ignore` list any other `lib` subdirectories that do

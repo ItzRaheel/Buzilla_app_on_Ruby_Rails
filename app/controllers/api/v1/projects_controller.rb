@@ -1,6 +1,6 @@
 class Api::V1::ProjectsController < ApplicationController
   before_action :set_project, only: %i[ show edit update destroy ]
-    skip_before_action :verify_authenticity_token  
+    # skip_before_action :verify_authenticity_token  
 
       #  load_resource
   # authorize_resource
@@ -69,7 +69,7 @@ render json: @project
 
 
 
-    
+
       if @project.update(project_params)
 
     #        User.where(role: "Manger").find_each do |man|
@@ -105,6 +105,6 @@ render json: @project
 
     # Only allow a list of trusted parameters through.
     def project_params
-      params.require(:projects).permit( :name, :description,:developer_id, :user_id)
+      params.require(:projects).permit( :name, :description,:developer_id)
     end
 end

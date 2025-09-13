@@ -1,30 +1,33 @@
 require 'sidekiq/web'
 Rails.application.routes.draw do
 
-  resources :reports
   # get "report/index"
   # get "report/create"
   # get "report/new"
   # get "report/show"
   namespace :api do
-  namespace :v1 do
-    resources :projects
+    namespace :v1 do 
+      resources :projects
   end
 end
 
- 
+
+
 mount Sidekiq::Web => '/sidekiq' if Rails.env.development?
 
 devise_for :users, controllers: { sessions: 'users/sessions' }
 
-  # devise_for :users ,controller: {sessions: 'users/sessions'}
-  resources :bugs do 
-    member do 
-      patch :assign
-      patch :resolve
-    end
+# devise_for :users ,controller: {sessions: 'users/sessions'}
+resources :projects
+
+
+resources :bugs do 
+  member do 
+    patch :assign
+    patch :resolve
   end
-  resources :projects
+end
+resources :reports
   root "projects#index"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

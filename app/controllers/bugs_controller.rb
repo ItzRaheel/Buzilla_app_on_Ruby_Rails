@@ -1,7 +1,6 @@
 class BugsController < ApplicationController
   before_action :set_bug, only: %i[ show edit update destroy assign resolve]
   #   load_resource
-  before_action :authenticate_user!
 
   # authorize_resource
 

@@ -53,7 +53,9 @@ config.action_mailer.delivery_method = :smtp
 #   authentication:       'plain',
 #   enable_starttls_auto: true
 # }
-config.debug_exception_response_format = :api
+# config.debug_exception_response_format = :api
+Rails.application.config.session_store :cookie_store, key: '_bugzilla_app_session'
+
 
 
   # Raise an error on page load if there are pending migrations.

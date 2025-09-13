@@ -1,6 +1,5 @@
 class ReportsController < ApplicationController
   before_action :set_report , only: %i[show]
-  before_action :authenticate_user!
 
 #  load_resource
 #   authorize_resource
