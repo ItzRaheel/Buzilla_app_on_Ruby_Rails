@@ -14,7 +14,7 @@ class ApplicationController < ActionController::Base
   #  load_and_authorize_resource
 
   before_action :configure_permitted_parameters, if: :devise_controller?
-  before_action :configure_permitted_to_signin, if: :devise_controller?
+  # before_action :configure_permitted_to_signin, if: :devise_controller?
 
   private 
   def user_not_authorized(exception)
@@ -23,11 +23,11 @@ class ApplicationController < ActionController::Base
   end
   protected
 
-  def configure_permitted_to_signin 
-    devise_parameter_sanitizer.permit(:sign_in) do |params|
-      params.permit(:name,:email)
-  end
-end
+#   def configure_permitted_to_signin 
+#     devise_parameter_sanitizer.permit(:sign_in) do |params|
+#       params.permit(:name,:email)
+#   end
+# end
 
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_up, keys: [:name])

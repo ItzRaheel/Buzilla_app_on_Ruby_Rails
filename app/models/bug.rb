@@ -2,17 +2,56 @@ class Bug < ApplicationRecord
   belongs_to :project
   belongs_to :user
    has_one_attached :file
+   before_validation :file_validation , on: :create
   validates :file ,presence: true
+  validates :description ,length: {minimum:6, maximum:15}
   validates :name,presence: true ,uniqueness: {case_sensitive: false}
   validates :bug_status ,presence: true
-  
+  # before_validation :titleize_name
+  # after_validation :log_error
+
+
+  before_save :set_datetime 
+
+  private 
+     def titleize_name
+      self.name = name.downcase.titleize if name.present?
+      Rails.logger.info("Name titleized to #{name}")
+    end
+  def log_error 
+    if errors.any?
+      Rails.logger.error("validation faills ${errors.full_messages.join(' ,' )}")
+      
+    end
+  end
 
 
   # validates :name,:status,presence: true
 
-  before_save :set_datetime 
 
-  # def file_type
+
+def file_validation
+  return unless file.attached?
+
+  acceptable_types = ["image/jpeg", "image/png", "image/gif"]
+  
+  unless acceptable_types.include?(file.content_type)
+    errors.add(:file, "must be a JPEG, PNG, or GIF")
+  end
+end
+
+# def file_validation 
+#   return unless file.attached? 
+#       content_type.include?("file/jpg", "file/png", "file/gif")
+
+#     # errors.add(:file ,"the File must contain JPEJ PNG GIF not other ")
+
+#   end
+
+# def file_validation 
+#   if file.attached?
+#     allow_types
+#   # def file_type
   #   return unless file.attached?
   #   allowed_types = ["image/jpg","image/gif","image/png"]
   #   unless allowed_types.include?(file.content_type)

@@ -18,7 +18,6 @@ class ApplicationPolicy
 
   def show?
     assign?
-    # false
   end
 
   def create?
