@@ -9,9 +9,8 @@ class BugsController < ApplicationController
   # GET /bugs or /bugs.json
   def index
 
-    @bugs = policy_scope(Bug)
+    @pagy,@bugs = pagy( policy_scope(Bug),limit: 4)
       
-    
     # @bugs = Bug.all
     #   if current_user.role == "QA"
       
@@ -22,11 +21,11 @@ class BugsController < ApplicationController
     #   @bugs = current_user.bugs
     # end
    
-  logger.debug "New Bug model are shown : #{@bugs.name.inspect}"
+
     # logger.debug "Article should be valid: #{@bugs.name}"
 
     if params[:search].present?
-      @bugs = @bugs.where("name LIKE ? OR bug_status LIKE ?", "%#{params[:search]}%", "%#{params[:search]}%")
+      @bugs =  @bugs.where("bugs.name LIKE ? OR bugs.bug_status LIKE ?", "%#{params[:search]}%", "%#{params[:search]}%")
       # debugger
     end
     

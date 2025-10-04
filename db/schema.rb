@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_23_080321) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_03_111814) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -69,6 +69,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_23_080321) do
     t.string "report_description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "bug_id"
+    t.index ["bug_id"], name: "index_reports_on_bug_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -88,4 +90,5 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_23_080321) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "bugs", "projects"
+  add_foreign_key "reports", "bugs"
 end

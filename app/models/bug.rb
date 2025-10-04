@@ -1,14 +1,17 @@
 class Bug < ApplicationRecord
   belongs_to :project
   belongs_to :user
+  has_many :reports ,dependent: :destroy
    has_one_attached :file
    before_validation :file_validation , on: :create
-  validates :file ,presence: true
-  validates :description ,length: {minimum:6, maximum:15}
-  validates :name,presence: true ,uniqueness: {case_sensitive: false}
-  validates :bug_status ,presence: true
+
+  # validates :file ,presence: true
+  # validates :description ,length: {minimum:6, maximum:15}
+  validates :name ,uniqueness: {case_sensitive: false}
+  # validates :bug_status ,presence: true
   # before_validation :titleize_name
   # after_validation :log_error
+  validates_with AddressValidator
 
 
   before_save :set_datetime 

@@ -10,14 +10,30 @@
 </div>
 
 <div>
+<div>
+  <h3>Reports of This Bug </h3>
+  <% if @bug.reports.any? %>
+  <% @bug.reports.each do |report| %>
+  <li>
+    <%=  link_to report.report_name,report %>
+  </li>
+  <li>
+    <%= report.report_description.truncate(10) %>
+  </li>
+  <% end %>
+ <% else%>
+ <h6>NO report yet </h6>
+</div>  
+<% end %>
+
 
 </div>
 <% if current_user.role == "QA" %>
 <%= link_to "View Reports ",reports_path%>
 <br>
-<%= link_to "Create  Reports ",new_report_path%>
+<%= link_to "Create  Reports ",new_report_path(bug_id: @bug.id) %>
 <div>
-  <%end%>
+  <% end %>
 
 
 
@@ -30,9 +46,9 @@
   <% if policy(@bug).resolve? %>
     <%= button_to "Mark as Resolved", resolve_bug_path(@bug), method: :patch %>
   <% end %>
-  <%else%>
+  <% else %>
   <p>No show button</p>
-  <%end%>
+  <% end %>
 
 
 </div>  

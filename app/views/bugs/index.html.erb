@@ -16,8 +16,6 @@
 <p style="color: green"><%= notice %></p>
 
 <% content_for :title, "Bugs" %>
-
-
 <h1>Bugs</h1>
 
 <div id="bugs">
@@ -42,6 +40,13 @@
   <%= link_to "Create New Projects", new_project_path %>
 
 </div>
+<div style="display: block;border: 1px solid blue ;align-content: center;align-items: center;height: 100px;width: 250px;background-color: aquamarine;">
+
+  <%== pagy_nav(@pagy) %>
+  <br>
+  <%== pagy_info(@pagy) %>
+</div>
+
 
 
 

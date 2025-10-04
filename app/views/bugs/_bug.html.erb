@@ -28,7 +28,7 @@
     <strong>Projects:</strong>
     <%= bug.project.name  %>
     ||
-    <%= bug.project.description %>
+    <%= bug.project.description.truncate(20) %>
   </p>
 <% if bug.file.attached? %>
 <%= image_tag url_for(bug.file), width: 300, height: 300 %>

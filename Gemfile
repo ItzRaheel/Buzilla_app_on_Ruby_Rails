@@ -70,3 +70,5 @@ gem "pundit", "~> 2.5"
 gem "sidekiq", "~> 8.0"
 
 gem "api", "~> 0.0.7"
+
+gem "pagy", "~> 9.4"

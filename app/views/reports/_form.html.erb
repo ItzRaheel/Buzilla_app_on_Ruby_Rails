@@ -18,6 +18,20 @@
 
   <% end %>
 
+  <% if @bug %>
+    <div style="background-color: #f0f0f0; padding: 10px; margin-bottom: 15px;">
+      <strong>Reporting Bug:</strong> <%= @bug.name || @bug.description%>
+    </div>
+    <%= form.hidden_field :bug_id, value: @bug.id %>
+  <% else %>
+    <div>
+      <%= form.label :bug_id, "Select Bug", style: "display: block" %>
+      <%= form.collection_select :bug_id, Bug.all, :id, :name, 
+          { prompt: "Choose a bug..." }, { required: true } %>
+    </div>
+    <br>
+  <% end %>
+
  <div>
     <%= form.label :Reprt_Name,style: "display: block" %>
     <%= form.text_field :report_name %>
