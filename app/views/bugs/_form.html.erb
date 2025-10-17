@@ -1,8 +1,7 @@
-<%= form_with(model: bug) do |form| %>
+<%= form_with(model: bug, class: "container mt-4") do |form| %>
   <% if bug.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(bug.errors.count, "error") %> prohibited this bug from being saved:</h2>
-
+    <div class="alert alert-danger">
+      <h4><%= pluralize(bug.errors.count, "error") %> prohibited this bug from being saved:</h4>
       <ul>
         <% bug.errors.each do |error| %>
           <li><%= error.full_message %></li>
@@ -11,47 +10,56 @@
     </div>
   <% end %>
 
-  <div>
-    <%= form.label :name, style: "display: block" %>
-    <%= form.text_field :name %>
-  </div>
+  <!-- Form Card -->
+  <div class="card shadow-sm mb-4">
+    <!-- <div class="card-header bg-primary text-white">
+      <!-- <h4 class="mb-0"><%= bug.new_record? ? "Create New Bug" : "Edit Bug" %></h4> -->
+    </div> -->
 
-  <div>
-    <%= form.label :description, style: "display: block" %>
-    <%= form.textarea :description %>
-  </div>
+    <div class="card-body">
 
-  <div>
-    <%= form.label :bug_status, style: "display: block" %>
-    <%= form.select :bug_status,["Bug","Feature"],prompt:"Select statuse" %>
-  </div>
-  <div>
-    <%= form.label :file, style: "display: block" %>
-    <%= form.file_field :file,accept:"jpj,gif" %>
-  </div>
+      <!-- Name -->
+      <div class="mb-3">
+        <%= form.label :name, class: "form-label fw-bold" %>
+        <%= form.text_field :name, class: "form-control", placeholder: "Enter bug name" %>
+      </div>
 
-  <div>
-    <%= form.label :priority, style: "display: block" %>
-    <%= form.select :priority,["New","Inprogress","Completed"],prompt:"Select priority" %>
-  </div> 
+      <!-- Description -->
+      <div class="mb-3">
+        <%= form.label :description, class: "form-label fw-bold" %>
+        <%= form.text_area :description, class: "form-control", rows: 4, placeholder: "Describe the issue" %>
+      </div>
 
-  <!-- <div>
-    <%= form.label :date, style: "display: block" %>
-    <%= form.date_field :date %>
-  </div> -->
+      <!-- Bug Status -->
+      <div class="mb-3">
+        <%= form.label :bug_status, "Bug Type", class: "form-label fw-bold" %>
+        <%= form.select :bug_status, ["Bug", "Feature"], { prompt: "Select Status" }, class: "form-select" %>
+      </div>
 
-  <div>
-    <%= form.label :projects_id, style: "display: block" %>
-      <%= form.collection_select :project_id,  current_user.projects, :id, :name, prompt: "Select Project" %>
-    <!-- <%= form.text_field :projects_id %> -->
-  </div>
+      <!-- File Upload -->
+      <div class="mb-3">
+        <%= form.label :file, "Attach Screenshot / Image", class: "form-label fw-bold" %>
+        <%= form.file_field :file, class: "form-control", accept: "image/png, image/jpeg, image/gif" %>
+        <small class="text-muted">Allowed formats: JPG, PNG, GIF</small>
+      </div>
 
-  <div>
+      <!-- Priority -->
+      <div class="mb-3">
+        <%= form.label :priority, class: "form-label fw-bold" %>
+        <%= form.select :priority, ["New", "In Progress", "Completed"], { prompt: "Select Priority" }, class: "form-select" %>
+      </div>
 
-<p style="width: 500px;border:1px solid black ;align-items:center;padding:10px;text-align:left;text-decoration:bold">
+      <!-- Project Selection -->
+      <div class="mb-3">
+        <%= form.label :project_id, "Assign to Project", class: "form-label fw-bold" %>
+        <%= form.collection_select :project_id, current_user.projects, :id, :name, { prompt: "Select Project" }, class: "form-select" %>
+      </div>
 
-  <%= debug form %>
-</p>
-    <%= form.submit %>
+      <!-- Submit Button -->
+      <div class="d-flex justify-content-end mt-4">
+        <%= form.submit (bug.new_record? ? "Create Bug" : "Update Bug"), class: "btn btn-success px-4" %>
+      </div>
+
+    </div>
   </div>
 <% end %>

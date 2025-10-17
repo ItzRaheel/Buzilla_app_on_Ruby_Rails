@@ -9,7 +9,7 @@ class BugsController < ApplicationController
   # GET /bugs or /bugs.json
   def index
 
-    @pagy,@bugs = pagy( policy_scope(Bug),limit: 4)
+    @pagy,@bugs = pagy( policy_scope(Bug),limit: 6)
       
     # @bugs = Bug.all
     #   if current_user.role == "QA"
@@ -41,6 +41,7 @@ end
 def assign 
   authorize @bug, :assign?
   @bug.assign_id  = current_user.id
+  debugger
   if @bug.save 
         NotificationJob.perform_later("bug_assigned", @bug.id, current_user.id)
     redirect_to @bug,notice: "The bug   are assign to you : (<./>)"

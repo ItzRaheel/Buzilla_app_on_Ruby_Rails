@@ -1,32 +1,96 @@
-<h2>Log in</h2>
+<div class="container">
+  <div class="row justify-content-center align-items-center" style="min-height: 80vh;">
+    <div class="col-md-5 col-lg-4">
+      <!-- Card -->
+      <div class="card shadow-lg border-0 rounded-4">
+        <div class="card-body p-5">
+          <!-- Header -->
+          <div class="text-center mb-4">
+            <h1 class="fw-bold text-gradient mb-2" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+              Welcome Back!
+            </h1>
+            <p class="text-muted">Log in to your Bugzilla account</p>
+          </div>
 
-<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
+          <!-- Login Form -->
+          <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+            <%= render "devise/shared/error_messages", resource: resource %>
 
-<div class="field">
-  <%= f.label :name %><br />
-  <%= f.text_field :name, autofocus: true %>
-</div>
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-  </div>
+            <!-- Name Field -->
+            <div class="mb-3">
+              <%= f.label :name, class: "form-label fw-semibold" %>
+              <%= f.text_field :name, autofocus: true, class: "form-control form-control-lg", placeholder: "Enter your name" %>
+            </div>
 
-  <div class="field">
-    <%= f.label :password %><br />
-    <%= f.password_field :password, autocomplete: "current-password" %>
-  </div>
+            <!-- Email Field -->
+            <div class="mb-3">
+              <%= f.label :email, class: "form-label fw-semibold" %>
+              <%= f.email_field :email, autocomplete: "email", class: "form-control form-control-lg", placeholder: "Enter your email" %>
+            </div>
 
-  <% if devise_mapping.rememberable? %>
-    <div class="field">
-      <%= f.check_box :remember_me %>
-      <%= f.label :remember_me %>
+            <!-- Password Field -->
+            <div class="mb-3">
+              <%= f.label :password, class: "form-label fw-semibold" %>
+              <%= f.password_field :password, autocomplete: "current-password", class: "form-control form-control-lg", placeholder: "Enter your password" %>
+            </div>
+
+            <!-- Remember Me Checkbox -->
+            <% if devise_mapping.rememberable? %>
+              <div class="mb-4 form-check">
+                <%= f.check_box :remember_me, class: "form-check-input" %>
+                <%= f.label :remember_me, class: "form-check-label" %>
+              </div>
+            <% end %>
+
+            <!-- Submit Button -->
+            <div class="d-grid mb-3">
+              <%= f.submit "Log in", class: "btn btn-lg fw-semibold text-white", style: "background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: none;" %>
+            </div>
+          <% end %>
+
+          <!-- Divider -->
+          <div class="text-center my-3">
+            <span class="text-muted small">OR</span>
+          </div>
+
+          <!-- Additional Links -->
+          <div class="text-center">
+            <%= render "devise/shared/links" %>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer Text -->
+      <div class="text-center mt-3">
+        <p class="text-muted small">
+          © 2024 Bugzilla App. All rights reserved.
+        </p>
+      </div>
     </div>
-  <% end %>
-
-  <div class="actions">
-    <%= f.submit "Log in" %>
   </div>
-<% end %>
+</div>
 
-<%= render "devise/shared/links" %>
+<style>
+  /* Additional custom styles for links */
+  .card a {
+    color: #667eea;
+    text-decoration: none;
+    font-weight: 500;
+  }
+  
+  .card a:hover {
+    color: #764ba2;
+    text-decoration: underline;
+  }
+  
+  .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    transition: all 0.3s ease;
+  }
+  
+  .form-control:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+  }
+</style>

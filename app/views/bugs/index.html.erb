@@ -1,56 +1,52 @@
+<% content_for :title, "Bugs" %>
 
-    <% link_to "Login",user_session_path %>
-
-    <h1>Bugs</h1>
-
-<%= form_with url: bugs_path, method: :get, data: { turbo_frame: "bugs_list" } do |f| %>
-  <div class="filters">
-    <%= f.text_field :search, value: params[:search], placeholder: "Search bugs..." %>
-
-    <%= f.submit "Filter" %>
-    <%= link_to "Reset", bugs_path, data: { turbo_frame: "bugs_list" } %>
+<!-- Search & Filter Form -->
+<%= form_with url: bugs_path, method: :get, data: { turbo_frame: "bugs_list" }, class: "mb-4" do |f| %>
+  <div class="input-group mb-3">
+    <%= f.text_field :search, value: params[:search], placeholder: "Search bug...", class: "form-control" %>
+    <button class="btn btn-primary" type="submit">Filter</button>
+    <%= link_to "Reset", bugs_path, class: "btn btn-outline-secondary", data: { turbo_frame: "bugs_list" } %>
   </div>
 <% end %>
-<!--  -->
 
-<p style="color: green"><%= notice %></p>
+<!-- Flash Message -->
+<p class="text-success"><%= notice %></p>
 
-<% content_for :title, "Bugs" %>
-<h1>Bugs</h1>
+<!-- Header -->
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h1 class="h3 mb-0">Bugs</h1>
+  <%= link_to "New Bug", new_bug_path, class: "btn btn-success" %>
+</div>
 
-<div id="bugs">
+<!-- Bugs List -->
+<div id="bugs" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
   <% @bugs.each do |bug| %>
-    <%= render bug %>
-    <p>
-      <%= link_to "Show this bug", bug %>
-    </p>
+    <div class="col">
+      <div class="card shadow-sm h-100">
+        <div class="card-body">
+          <h5 class="card-title"><%= bug.name %></h5>
+          <p class="card-text">
+            <strong>Status:</strong> <%= bug.bug_status %><br>
+            <strong>Priority:</strong> <%= bug.priority %><br>
+            <%= truncate(bug.description, length: 80) %>
+          </p>
+          <%= link_to "Show this Bug", bug_path(bug), class: "btn btn-outline-primary btn-sm" %>
+        </div>
+      </div>
+    </div>
   <% end %>
 </div>
 
-<%= link_to "New bug", new_bug_path %>
+<!-- ✅ Pagy Navigation Bar -->
+<div class="d-flex justify-content-center mt-4">
+  <%== pagy_nav(@pagy).html_safe if @pagy.present? %>
+</div>
 
+<hr class="my-4">
 
+<!-- Projects Section -->
 <div>
-  <br>
-  <h1>Projects</h1>
-
-
-  <%= link_to "Show all Projects", projects_path %>
-  <br>
-  <%= link_to "Create New Projects", new_project_path %>
-
+  <h1 class="h4 mb-3">Projects</h1>
+  <%= link_to "View All Projects", projects_path, class: "btn btn-info me-2" %>
+  <%= link_to "Create New Project", new_project_path, class: "btn btn-success" %>
 </div>
-<div style="display: block;border: 1px solid blue ;align-content: center;align-items: center;height: 100px;width: 250px;background-color: aquamarine;">
-
-  <%== pagy_nav(@pagy) %>
-  <br>
-  <%== pagy_info(@pagy) %>
-</div>
-
-
-
-
-
-
-
-

@@ -1,51 +1,80 @@
-<h1>Reports</h1>
+<% content_for :title, "Reports" %>
 
+<div class="container mt-5">
 
-<%= form_with url: reports_path, method: :get ,data: {turbo_frame: "report_list"} do |f| %>
-<div class="filters">
-  <%= f.text_field :search , value: params[:find], placeholder: "Search Repor ........." %>
+  <!-- Page Header -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3 mb-0">Reports</h1>
+    <%= link_to "New Report", new_report_path, class: "btn btn-success" %>
+  </div>
 
-  <%= f.submit "Filter" %>
-  <%= link_to "Reset", reports_path,data: {turbo_frame: "report_list"} %>
+  <!-- Search / Filter Form -->
+  <%= form_with url: reports_path, method: :get, data: { turbo_frame: "report_list" }, class: "mb-4" do |f| %>
+    <div class="input-group">
+      <%= f.text_field :search, value: params[:find], placeholder: "Search report...", class: "form-control" %>
+      <button class="btn btn-primary" type="submit">Filter</button>
+      <%= link_to "Reset", reports_path, class: "btn btn-outline-secondary", data: { turbo_frame: "report_list" } %>
+    </div>
+  <% end %>
 
+  <!-- Flash Message -->
+  <% if notice.present? %>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      <%= notice %>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  <% end %>
 
+  <!-- Reports List -->
+  <div id="reports" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    <% @reports.each do |report| %>
+      <div class="col">
+        <div class="card shadow-sm h-100">
+          <div class="card-body">
+            <h5 class="card-title text-primary">
+              <% if report.report_name.present? %>
+                <%= report.report_name %>
+              <% else %>
+                <span class="text-muted fst-italic">Sample Report Name</span>
+              <% end %>
+            </h5>
 
+            <p class="card-text">
+              <strong>Description:</strong>
+              <%= report.report_description.presence || "Sample description data" %>
+            </p>
+
+            <p class="card-text mb-3">
+              <strong>Bug:</strong>
+              <%= report.bug.present? ? report.bug.name : "No related bug" %>
+            </p>
+
+            <%= link_to "Show This Report", report_path(report), class: "btn btn-outline-primary btn-sm" %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- Pagination -->
+  <% if defined?(@pagy) && @pagy.present? %>
+    <div class="text-center mt-4">
+      <div class="mb-2">
+        <%== pagy_nav(@pagy) %>
+      </div>
+      <small class="text-muted"><%== pagy_info(@pagy) %></small>
+    </div>
+  <% end %>
+
+  <hr class="my-5">
+
+  <!-- Navigation to Other Pages -->
+  <div class="text-center">
+    <h4 class="mb-3">Quick Navigation</h4>
+    <div class="d-flex flex-wrap justify-content-center gap-3">
+      <%= link_to "View All Projects", projects_path, class: "btn btn-outline-info btn-sm" %>
+      <%= link_to "View All Bugs", bugs_path, class: "btn btn-outline-secondary btn-sm" %>
+    </div>
+  </div>
 
 </div>
-<%end%>
-<div>
-
-<% @reports.each do |report| %>
-<h1>
-    
-    
-    <%= report.report_name %> 
-</h1>
-<p>
-    <%= report.report_description %> 
-
-    
-    
-</p>
-<%= link_to "Show This Report",report %>
-
-
-</div>
-<% end %>
-<div>
-    <%= link_to "Create New Report",new_report_path %>
-</div>
-
-
-
-<div>
-<h1>View Projects</h1>
-<%= link_to "View All Projects",projects_path %>
-</div>
-<div>
-<h1>View Bugs</h1>
-<%= link_to "View All Projects",bugs_path %>
-</div>
-
-
-

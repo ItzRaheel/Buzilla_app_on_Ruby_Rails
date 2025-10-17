@@ -13,9 +13,9 @@ class AddressValidator < ActiveModel::Validator
     if record.bug_status.blank?
       record.errors.add :bug_status,"is required "
     end
-    if record.description.length <= 30
-      record.errors.add :description ,"The des length b/w 6 to 30:"
-    end
+    # if record.description.length <= 30
+    #   record.errors.add :description ,"The des length b/w 6 to 30:"
+    # end
   
 
 

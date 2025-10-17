@@ -1,31 +1,68 @@
-<p style="color: green"><%= notice %></p>
+<p class="text-success"><%= notice %></p>
 
-<%= render @project %>
+<div class="card mb-4 shadow-sm">
+  <div class="card-body">
+    <%= render @project %>
+  </div>
+</div>
 
-
-<div>
-  <%= link_to "Edit this project", edit_project_path(@project) %> |
-  <%= link_to "Back to projects", projects_path %>
-  
-  <%= button_to "Destroy this project", @project, method: :delete %>
+<div class="mb-4">
+  <%= link_to "Edit this Project", edit_project_path(@project), class: "btn btn-primary me-2" %>
+  <%= link_to "Back to Projects", projects_path, class: "btn btn-secondary me-2" %>
+  <%= button_to "Destroy this Project", @project, method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-danger" %>
 </div>
 
 <% if @bugs.present? %>
-<h1>Bugs</h1>
-<% @bugs.each do |bug| %>
-<div style="display: block;border: 1px solid rgb(159, 141, 177);margin-top: 20px;width: 20%;">
-  <p>
-    <strong>
-Bug_Name:
-    </strong>
-    <%= link_to bug.name,bug_path(bug) %></p>
-</div>
+  <div class="card mt-4">
+    <div class="card-header bg-info text-white">
+      <h3 class="mb-0">Bugs in this Project</h3>
+    </div>
+    <div class="card-body">
+      <table class="table table-bordered table-hover align-middle">
+        <thead class="table-dark">
+          <tr>
+            <th>Bug ID</th>
+            <th>Bug Name</th>
+            <th>Status</th>
+            <th>Priority</th>
+            <th>Description</th>
+            <th>Show Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @bugs.each do |bug| %>
+            <tr>
+              <td><%= bug.id %></td>
+              <td><%= bug.name %></td>
+              <td>
+                <% status_class = case bug.bug_status
+                  when 'Open' then 'badge bg-danger'
+                  when 'In Progress' then 'badge bg-warning text-dark'
+                  when 'Resolved' then 'badge bg-success'
+                  else 'badge bg-secondary'
+                end %>
+                <span class="<%= status_class %>"><%= bug.bug_status %></span>
+              </td>
+              <td><%= bug.priority %></td>
+              <td><%= truncate(bug.description, length: 80) %></td>
+              <td>
+                <%= link_to "Show Bug", bug_path(bug), class: "btn btn-outline-primary btn-sm" %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
 
-<%end %>
 <% else %>
-
-<h3>Not bugs are created yet belongs to Project: You want to Create</h3>
-<%end%>
-<%= link_to "Create New Bug",new_bug_path %>
-
-
+  <div class="card mt-4 border-warning">
+    <div class="card-header bg-warning text-dark">
+      <h5 class="mb-0">No Bugs Found</h5>
+    </div>
+    <div class="card-body">
+      <p class="mb-3">No bugs have been created for this project yet.</p>
+      <%= link_to "Create New Bug", new_bug_path, class: "btn btn-success" %>
+    </div>
+  </div>
+<% end %>

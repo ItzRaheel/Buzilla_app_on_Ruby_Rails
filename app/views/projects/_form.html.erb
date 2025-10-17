@@ -1,9 +1,10 @@
-<%= form_with(model: project) do |form| %>
+<%= form_with(model: project, local: true, class: "needs-validation") do |form| %>
   <% if project.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(project.errors.count, "error") %> prohibited this project from being saved:</h2>
-
-      <ul>
+    <div class="alert alert-danger">
+      <h5 class="alert-heading">
+        <%= pluralize(project.errors.count, "error") %> prohibited this project from being saved:
+      </h5>
+      <ul class="mb-0">
         <% project.errors.each do |error| %>
           <li><%= error.full_message %></li>
         <% end %>
@@ -11,23 +12,25 @@
     </div>
   <% end %>
 
-  <div>
-    <%= form.label :name, style: "display: block" %>
-    <%= form.text_field :name %>
+  <div class="mb-3">
+    <%= form.label :name, class: "form-label" %>
+    <%= form.text_field :name, class: "form-control", placeholder: "Enter project name" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :description, class: "form-label" %>
+    <%= form.text_area :description, class: "form-control", rows: 3, placeholder: "Enter project description" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :developer_id, "Assign to Developer", class: "form-label" %>
+    <%= form.collection_select :developer_id,
+      User.where(role: "developer"), :id, :name,
+      { prompt: "Select Developer" },
+      { class: "form-select" } %>
   </div>
 
   <div>
-    <%= form.label :description, style: "display: block" %>
-    <%= form.textarea :description %>
-  </div>
-  <div>
-    <!-- <%= form.label :developer_id, "Assign Developer" %>
-  <%= form.collection_select :developer_id, User.where(role: "developer"), :id, :name, prompt: "Select Developer" %> -->
-    <%= form.label :developer_id, "Assign to Devloper",style: "display: block" %>
-    <%= form.collection_select :developer_id, User.where(role: "developer"), :id, :name, prompt:"Select Devloper"%>
-  </div>
-
-  <div>
-    <%= form.submit %>
+    <%= form.submit project.persisted? ? "Update Project" : "Create Project", class: "btn btn-success" %>
   </div>
 <% end %>

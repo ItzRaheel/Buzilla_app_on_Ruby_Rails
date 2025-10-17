@@ -1,13 +1,18 @@
 <% content_for :title, "New bug" %>
 
-<h1>New bug</h1>
 
-<%= render "form", bug: @bug %>
-    <!-- <%= simple_format @bug.to_yaml%> -->
-
-
-<br>
-
-<div>
-  <%= link_to "Back to bugs", bugs_path %>
+<div class="container mt-4">
+  <div class="card shadow-sm">
+    
+    <div class="card-header bg-primary text-white">
+      <h3 class="mb-0">Create New Bug</h3>
+    </div>
+    <div class="card-body">
+      <%= render "form", bug: @bug %>
+      <%= link_to "Back to bugs", bugs_path ,class: "btn btn-secondary" %>
+    </div>
+  </div>
+  
+  <div class="mt-3">
+  </div>
 </div>

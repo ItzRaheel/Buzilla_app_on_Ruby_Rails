@@ -1,55 +1,110 @@
-<p style="color: green"><%= notice %></p>
+<% content_for :title, @bug.name %>
 
-<%= render @bug %>
+<!-- Flash Message -->
+<p class="text-success"><%= notice %></p>
 
-<div>
-  <%= link_to "Edit this bug", edit_bug_path(@bug) %> |
-  <%= link_to "Back to bugs", bugs_path %>
-  
-  <%= button_to "Destroy this bug", @bug, method: :delete %>
-</div>
+<div class="container mt-4">
 
-<div>
-<div>
-  <h3>Reports of This Bug </h3>
-  <% if @bug.reports.any? %>
-  <% @bug.reports.each do |report| %>
-  <li>
-    <%=  link_to report.report_name,report %>
-  </li>
-  <li>
-    <%= report.report_description.truncate(10) %>
-  </li>
-  <% end %>
- <% else%>
- <h6>NO report yet </h6>
-</div>  
-<% end %>
+  <!-- Bug Details Card -->
+  <div class="card shadow-sm mb-4">
+    <div class="card-header bg-primary text-white">
+      <h3 class="mb-0"><%= @bug.name %></h3>
+    </div>
 
+    <div class="card-body">
+      <p><strong>ID:</strong> <%= @bug.id %></p>
+      <p><strong>Description:</strong> <%= @bug.description.presence || "No description provided." %></p>
+      <p><strong>Status:</strong> <span class="badge bg-info text-dark"><%= @bug.bug_status %></span></p>
+      <p><strong>Priority:</strong> <span class="badge bg-warning text-dark"><%= @bug.priority %></span></p>
+      <p><strong>Assigned To:</strong> <%= @bug.user.present? ? @bug.user.name : "Unassigned" %></p>
+      <p><strong>Project:</strong> <%= link_to @bug.project.name, @bug.project, class: "text-decoration-none" if @bug.project %></p>
+      <p><strong>Created At:</strong> <%= @bug.created_at.strftime("%d %B %Y, %I:%M %p") %></p>
+      <p><strong>Updated At:</strong> <%= @bug.updated_at.strftime("%d %B %Y, %I:%M %p") %></p>
 
-</div>
-<% if current_user.role == "QA" %>
-<%= link_to "View Reports ",reports_path%>
-<br>
-<%= link_to "Create  Reports ",new_report_path(bug_id: @bug.id) %>
-<div>
-  <% end %>
+      <% if @bug.file.present? %>
+        <div class="mt-4">
+          <h5>Attached Image:</h5>
+          <div class="border rounded p-3 bg-light text-center">
+            <%= image_tag @bug.file, class: "img-fluid rounded shadow-sm", alt: "Bug Screenshot" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
 
+    <div class="card-footer d-flex justify-content-between">
+      <div>
+        <%= link_to "Edit this Bug", edit_bug_path(@bug), class: "btn btn-outline-primary me-2" %>
+        <%= link_to "Back to Bugs", bugs_path, class: "btn btn-outline-secondary" %>
+      </div>
+      <%= button_to "Delete Bug", @bug, method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-danger" %>
+    </div>
+  </div>
 
+  <!-- Reports Section -->
+  <div class="card shadow-sm mb-4">
+    <div class="card-header bg-dark text-white">
+      <h4 class="mb-0">Reports for This Bug</h4>
+    </div>
 
+    <div class="card-body">
+      <% if @bug.reports.any? %>
+        <table class="table table-bordered table-striped align-middle">
+          <thead class="table-light">
+            <tr>
+              <th>ID</th>
+              <th>Report Name</th>
+              <th>Description</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @bug.reports.each do |report| %>
+              <tr>
+                <td><%= report.id %></td>
+                <td><%= report.report_name %></td>
+                <td><%= truncate(report.report_description, length: 100) %></td>
+                <td>
+                  <%= link_to "View", report_path(report), class: "btn btn-sm btn-outline-primary" %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+
+        <% if current_user.role == "QA" %>
+          <div class="d-flex justify-content-between mt-3">
+            <%= link_to "View All Reports", reports_path, class: "btn btn-outline-info" %>
+            <%= link_to "Create New Report", new_report_path(bug_id: @bug.id), class: "btn btn-success" %>
+          </div>
+        <% end %>
+
+      <% else %>
+        <div class="text-center py-3">
+          <p class="text-muted mb-3">No reports have been created yet.</p>
+          <%= link_to "Create Report", new_report_path(bug_id: @bug.id), class: "btn btn-success" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Developer Actions -->
   <% if current_user.role == "developer" %>
-  
-  <% if policy(@bug).assign? %>
-    <%= button_to "Assign to Me", assign_bug_path(@bug), method: :patch, data: { confirm: "Are you sure you want to take this bug?" } %>
-  <% end %>
-  
-  <% if policy(@bug).resolve? %>
-    <%= button_to "Mark as Resolved", resolve_bug_path(@bug), method: :patch %>
-  <% end %>
-  <% else %>
-  <p>No show button</p>
-  <% end %>
+    <div class="card shadow-sm mb-4">
+      <div class="card-header bg-secondary text-white">
+        <h5 class="mb-0">Developer Actions</h5>
+      </div>
+      <div class="card-body">
+        <% if policy(@bug).assign? %>
+          <%= button_to "Assign to Me", assign_bug_path(@bug), method: :patch,
+              data: { confirm: "Are you sure you want to take this bug?" },
+              class: "btn btn-outline-primary me-2" %>
+        <% end %>
 
-
-</div>  
-
+        <% if policy(@bug).resolve? %>
+          <%= button_to "Mark as Resolved", resolve_bug_path(@bug), method: :patch,
+              class: "btn btn-success" %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>

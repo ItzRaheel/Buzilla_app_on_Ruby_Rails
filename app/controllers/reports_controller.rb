@@ -23,14 +23,15 @@ class ReportsController < ApplicationController
 
   def create
 
+
     @report = Report.build(report_pramas)
+    # @rep = Bug.find(params[:bug_id])
     authorize @report
     if @report.save
       redirect_to @report ,notice: "The report are suceesfully addd"
     else
       render :new ,status: :unprocessable_entity
     end
-    
   end
   
   def new
@@ -38,7 +39,6 @@ class ReportsController < ApplicationController
     @report = Report.new(bug: @bug)
     authorize @report
   end
-  
   def show
     authorize @report
     # @report = Report.find(params.expect(:id))

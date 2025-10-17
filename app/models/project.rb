@@ -5,7 +5,7 @@ class Project < ApplicationRecord
      validates_each  :description do |record ,attr, value|
           record.errors.add(attr,"Must start with Capital letter ") if /\A[[:lower:]]/.match?(value) 
      end
-     validates_with AddressValidator
+     # validates_with AddressValidator
 
      
 #        belongs_to :creator, class_name: "User", foreign_key: "user_id"
